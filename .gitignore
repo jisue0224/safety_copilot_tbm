@@ -1,0 +1,9 @@
+myenv
+.streamlit
+__pycache__
+.vscode
+secret.json
+audio_samples
+창고
+db.json
+dev_files
