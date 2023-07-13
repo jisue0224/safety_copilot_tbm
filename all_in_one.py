@@ -63,34 +63,6 @@ def get_safety_keywords(txt, risk_words):
     except:
             pass
         
-def han_get_safety_keywords(txt, risk_words):
-    hannanum = Hannanum()
-    word_dict = {}
-    risk_words = risk_words
-    try:
-        lines = txt.split("\n")
-    
-        for line in lines:
-            malist = hannanum.pos(line)
-            for word in malist:
-                if word[1] == "NNG" or word[1] == "NNP":
-                    if not (word[0] in word_dict):
-                        word_dict[word[0]]=0
-                    word_dict[word[0]] +=1 
-
-        for word in word_dict.copy():
-            if word not in risk_words:
-                del word_dict[word]
-        
-        
-        keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
-        df = pd.DataFrame(keys, columns=['Word', 'Count'])
-        r_df = df[df["Count"]>=1]
-        return r_df
-
-    except:
-            pass
-
 def all_in_one_main():
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
@@ -123,10 +95,41 @@ def all_in_one_main():
             
             return "Nothing"
     
+
+def han_get_safety_keywords(txt, risk_words):
+    hannanum = Hannanum()
+    word_dict = {}
+    risk_words = risk_words
+    try:
+        lines = txt.split("\n")
     
+        for line in lines:
+            malist = hannanum.pos(line)
+            for word in malist:
+                if word[1] == "NNG" or word[1] == "NNP":
+                    if not (word[0] in word_dict):
+                        word_dict[word[0]]=0
+                    word_dict[word[0]] +=1 
+
+        for word in word_dict.copy():
+            if word not in risk_words:
+                del word_dict[word]
+        
+        
+        keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
+        df = pd.DataFrame(keys, columns=['Word', 'Count'])
+        r_df = df[df["Count"]>=1]
+        return r_df
+
+    except:
+            pass
+
+  
 def han_all_in_one_main():
     recognizer = sr.Recognizer()
-    microphone = sr.Microphone(device_index = pyaudio.get_default_input_device())
+    # Get the default audio device index
+    default_device_index = -1  # Change this to the desired index
+    microphone = sr.Microphone(device_index = default_device_index)
     
     if st.button("한 문장 녹음 시작"):
         time.sleep(1)
