@@ -1,5 +1,8 @@
 import streamlit as st
 from st_custom_components import st_audio_record
+from all_in_one import han_all_in_one_main
+from trans import trans
+
 
 st.set_page_config(page_title="AI_Copilot[Safety]")
 # Design move app further up and remove top padding
@@ -56,3 +59,17 @@ if __name__ == '__main__':
         
         audiorec_demo_app()
     
+    
+        st.markdown("---")
+    with st.expander("🚀 [참고용] 한문장 All in One 테스트 -- 녹음 파일을 거치지 않고 STT + 형태소 분석(Mecab)"):
+        best_txt = han_all_in_one_main()
+        # print(best_txt)
+        
+        target_lang = st.selectbox("번역 언어 선택", ["en", "zh", "vi", "th", "ja"]) 
+        # print(target_lang)   # 영어, 중국어, 베트남어, 태국어, 일본어
+        try:
+            trans_result = trans(best_txt, target_lang)
+            # print(trans_result.text)
+            st.markdown(f"✏️ 번역결과 : {trans_result.text}")
+        except:
+            st.markdown("✏️ 번역 내용이 없습니다.")

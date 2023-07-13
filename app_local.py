@@ -152,8 +152,8 @@ if __name__ == '__main__':
         best_txt = all_in_one_main()
         # print(best_txt)
         
-        target_lang = st.selectbox("번역 언어 선택", ["en", "zh", "vi", "th", "ja"])
-        # print(target_lang)
+        target_lang = st.selectbox("번역 언어 선택", ["en", "zh", "vi", "th", "ja"]) 
+        # print(target_lang)   # 영어, 중국어, 베트남어, 태국어, 일본어
         try:
             trans_result = trans(best_txt, target_lang)
             # print(trans_result.text)

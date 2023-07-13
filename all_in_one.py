@@ -63,32 +63,32 @@ def get_safety_keywords(txt, risk_words):
     except:
             pass
         
-# def han_get_safety_keywords(txt, risk_words):
-#     hannanum = Hannanum()
-#     word_dict = {}
-#     risk_words = risk_words
-#     try:
-#         lines = txt.split("\n")
+def han_get_safety_keywords(txt, risk_words):
+    hannanum = Hannanum()
+    word_dict = {}
+    risk_words = risk_words
+    try:
+        lines = txt.split("\n")
     
-#         for line in lines:
-#             malist = hannanum.pos(line)
-#             for word in malist:
-#                 if word[1] == "NNG" or word[1] == "NNP":
-#                     if not (word[0] in word_dict):
-#                         word_dict[word[0]]=0
-#                     word_dict[word[0]] +=1 
+        for line in lines:
+            malist = hannanum.pos(line)
+            for word in malist:
+                if word[1] == "NNG" or word[1] == "NNP":
+                    if not (word[0] in word_dict):
+                        word_dict[word[0]]=0
+                    word_dict[word[0]] +=1 
 
-#         for word in word_dict.copy():
-#             if word not in risk_words:
-#                 del word_dict[word]
+        for word in word_dict.copy():
+            if word not in risk_words:
+                del word_dict[word]
         
         
-#         keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
-#         df = pd.DataFrame(keys, columns=['Word', 'Count'])
-#         r_df = df[df["Count"]>=1]
-#         return r_df
+        keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
+        df = pd.DataFrame(keys, columns=['Word', 'Count'])
+        r_df = df[df["Count"]>=1]
+        return r_df
 
-#     except:
+    except:
             pass
 
 def all_in_one_main():
@@ -124,32 +124,32 @@ def all_in_one_main():
             return "Nothing"
     
     
-# def han_all_in_one_main():
-#     recognizer = sr.Recognizer()
-#     microphone = sr.Microphone(device_index = pyaudio.get_default_input_device())
+def han_all_in_one_main():
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone(device_index = pyaudio.get_default_input_device())
     
-#     if st.button("한 문장 녹음 시작"):
-#         time.sleep(1)
-#         st.markdown("녹음을 시작하세요")
-#         result1 = recognize_speech_from_mic(recognizer, microphone)
+    if st.button("한 문장 녹음 시작"):
+        time.sleep(1)
+        st.markdown("녹음을 시작하세요")
+        result1 = recognize_speech_from_mic(recognizer, microphone)
 
-#         txt = result1["transcription"]
-#         st.markdown("All Cases of Speech to Text")
-#         st.markdown(f"{txt}")
+        txt = result1["transcription"]
+        st.markdown("All Cases of Speech to Text")
+        st.markdown(f"{txt}")
         
-#         try:
-#             best_txt = result1["transcription"]['alternative'][0]['transcript']
-#             st.markdown("Best Speech to Text : ")
-#             st.markdown(f"{best_txt}")
+        try:
+            best_txt = result1["transcription"]['alternative'][0]['transcript']
+            st.markdown("Best Speech to Text : ")
+            st.markdown(f"{best_txt}")
         
-#             mywords = pd.read_excel("./my_words/mywords.xlsx")
-#             risk_words_list = mywords["mywords"].values
+            mywords = pd.read_excel("./my_words/mywords.xlsx")
+            risk_words_list = mywords["mywords"].values
             
-#             st.markdown("위험키워드 빈출도------------")
-#             result2 = han_get_safety_keywords(best_txt, risk_words_list)
-#             st.dataframe(result2)
-#         except:
-#             st.markdown("녹음된 음성이 없습니다.")
+            st.markdown("위험키워드 빈출도------------")
+            result2 = han_get_safety_keywords(best_txt, risk_words_list)
+            st.dataframe(result2)
+        except:
+            st.markdown("녹음된 음성이 없습니다.")
 
 if __name__ == "__main__":
     
