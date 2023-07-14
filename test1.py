@@ -1,83 +1,83 @@
-import logging
-import queue
-
-import matplotlib.pyplot as plt
-import numpy as np
-import pydub
 import streamlit as st
-from streamlit_webrtc import WebRtcMode, webrtc_streamer
+import speech_recognition as sr
+from trans import trans
+from konlpy.tag import Hannanum
+from st_custom_components import st_audio_record
+import pandas as pd
 
-from sample_utils.turn import get_ice_servers
 
-logger = logging.getLogger(__name__)
+def han_get_safety_keywords(txt, risk_words):
+    hannanum = Hannanum()
+    word_dict = {}
+    risk_words = risk_words
+    try:
+        lines = txt.split("\n")
+    
+        for line in lines:
+            malist = hannanum.pos(line)
+            for word in malist:
+                if word[1] == "N":
+                    if not (word[0] in word_dict):
+                        word_dict[word[0]]=0
+                    word_dict[word[0]] +=1 
+
+        for word in word_dict.copy():
+            if word not in risk_words:
+                del word_dict[word]
+        
+        
+        keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
+        df = pd.DataFrame(keys, columns=['Word', 'Count'])
+        r_df = df[df["Count"]>=1]
+        return r_df
+    except:
+            pass
+        
+        
+# def transcribe_speech(audio):
+    # Initialize the recognizer
+    # r = sr.Recognizer()
+
+    # Transcribe the speech
+    # text = r.recognize_google(audio)
+
+    # return text
+
+def main():
+
+    
+    st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
+    st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
+
+    try:
+        wav_audio_data = st_audio_record()
+        print(f"wav audio data type: {type(wav_audio_data)}")
+        # print(wav_audio_data)
+        audio_data = sr.AudioData(wav_audio_data, sample_rate=16000, sample_width=2)
+        print(f"pre audio type: {type(audio_data)}")
+        # print(audio_data)
+        
+        # Read audio file and get sample rate and sample width
+        sample_rate = audio_data.sample_rate
+        sample_width = audio_data.sample_width
+
+        print(f"Sample Rate: {sample_rate}")
+        print(f"Sample Width: {sample_width}")
+
+        print(1)
+        recognizer = sr.Recognizer()
+        print(2)
+        
+        text = recognizer.recognize_google(audio_data, language="ko-KR", show_all=True)
+
+        print(text)
+        
+        
+        
+    except:
+        pass
 
 
-webrtc_ctx = webrtc_streamer(
-    key="sendonly-audio",
-    mode=WebRtcMode.SENDONLY,
-    audio_receiver_size=256,
-    rtc_configuration={"iceServers": get_ice_servers()},
-    media_stream_constraints={"audio": True},
-)
-
-fig_place = st.empty()
-
-fig, [ax_time, ax_freq] = plt.subplots(2, 1, gridspec_kw={"top": 1.5, "bottom": 0.2})
-
-sound_window_len = 5000  # 5s
-sound_window_buffer = None
-while True:
-    if webrtc_ctx.audio_receiver:
-        try:
-            audio_frames = webrtc_ctx.audio_receiver.get_frames(timeout=1)
-        except queue.Empty:
-            logger.warning("Queue is empty. Abort.")
-            break
-
-        sound_chunk = pydub.AudioSegment.empty()
-        for audio_frame in audio_frames:
-            sound = pydub.AudioSegment(
-                data=audio_frame.to_ndarray().tobytes(),
-                sample_width=audio_frame.format.bytes,
-                frame_rate=audio_frame.sample_rate,
-                channels=len(audio_frame.layout.channels),
-            )
-            sound_chunk += sound
-
-        if len(sound_chunk) > 0:
-            if sound_window_buffer is None:
-                sound_window_buffer = pydub.AudioSegment.silent(
-                    duration=sound_window_len
-                )
-
-            sound_window_buffer += sound_chunk
-            if len(sound_window_buffer) > sound_window_len:
-                sound_window_buffer = sound_window_buffer[-sound_window_len:]
-
-        if sound_window_buffer:
-            # Ref: https://own-search-and-study.xyz/2017/10/27/python%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E9%9F%B3%E5%A3%B0%E3%83%87%E3%83%BC%E3%82%BF%E3%81%8B%E3%82%89%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E4%BD%9C/  # noqa
-            sound_window_buffer = sound_window_buffer.set_channels(1)  # Stereo to mono
-            sample = np.array(sound_window_buffer.get_array_of_samples())
-
-            ax_time.cla()
-            times = (np.arange(-len(sample), 0)) / sound_window_buffer.frame_rate
-            ax_time.plot(times, sample)
-            ax_time.set_xlabel("Time")
-            ax_time.set_ylabel("Magnitude")
-
-            spec = np.fft.fft(sample)
-            freq = np.fft.fftfreq(sample.shape[0], 1.0 / sound_chunk.frame_rate)
-            freq = freq[: int(freq.shape[0] / 2)]
-            spec = spec[: int(spec.shape[0] / 2)]
-            spec[0] = spec[0] / 2
-
-            ax_freq.cla()
-            ax_freq.plot(freq, np.abs(spec))
-            ax_freq.set_xlabel("Frequency")
-            ax_freq.set_yscale("log")
-            ax_freq.set_ylabel("Magnitude")
-
-            fig_place.pyplot(fig)
-    else:
-        logger.warning("AudioReciver is not set. Abort.")
-        break
+if __name__ == "__main__":
+    
+    main()

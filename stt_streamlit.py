@@ -49,20 +49,24 @@ def main():
     st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
     st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
 
-
+    
     if st.button("녹음시작"):
         # Initialize the recognizer
         r = sr.Recognizer()
 
         # Start the microphone input
-        with sr.Microphone(0) as source:
+        with sr.Microphone(1) as source:
             st.info("Listening...")
-
+            print("----------")
+            print(type(source))
             # Adjust microphone energy threshold for ambient noise levels
             r.adjust_for_ambient_noise(source)
 
             # Record the audio
             audio = r.listen(source)
+            print(type(audio))
+            audio_data_bytes = audio.get_wav_data()
+            print(type(audio_data_bytes))
             
         response = {
         "success": True,

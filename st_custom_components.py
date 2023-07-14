@@ -27,10 +27,10 @@ def st_audio_record():
         with st.spinner('음성 데이터를 처리하고 있습니다...'):
             ind, raw_audio_data = zip(*raw_audio_data['arr'].items())
 
-            # ind = np.array(ind, dtype=int)  # convert to np array
-            # raw_audio_data = np.array(raw_audio_data)  # convert to np array
-            # sorted_ints = raw_audio_data[ind]
-            # stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
+            ind = np.array(ind, dtype=int)  # convert to np array
+            raw_audio_data = np.array(raw_audio_data)  # convert to np array
+            sorted_ints = raw_audio_data[ind]
+            stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in sorted_ints]))
             stream = BytesIO(b"".join([int(v).to_bytes(1, "big") for v in raw_audio_data]))
             # wav_bytes contains audio data in byte format, ready to be processed further
             wav_bytes = stream.read()
@@ -44,5 +44,6 @@ def st_audio_record():
 if __name__ == "__main__":
     start_time = time.time()
     st_audio_record()
+    print(type(st_audio_record()))
     time_delta = time.time() - start_time
     st.markdown(f"Stop후 음성 데이터 처리 소요시간(초) : {np.round(time_delta, 2)}")   
