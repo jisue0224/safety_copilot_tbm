@@ -3,7 +3,6 @@ import speech_recognition as sr
 from trans import trans
 from konlpy.tag import Hannanum
 import pandas as pd
-from streamlit_webrtc import webrtc_streamer
 
 
 
@@ -45,17 +44,18 @@ def transcribe_speech(audio):
     return text
 
 def main():
-    webrtc_streamer(key="sample")
+
+    
     st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
     st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
 
+
     if st.button("녹음시작"):
-        # audio_source == "Microphone"
         # Initialize the recognizer
         r = sr.Recognizer()
 
         # Start the microphone input
-        with sr.Microphone() as source:
+        with sr.Microphone(0) as source:
             st.info("Listening...")
 
             # Adjust microphone energy threshold for ambient noise levels
