@@ -43,7 +43,7 @@ def transcribe_speech(audio):
     return text
 
 def main():
-    st.title("안전생산 업무지시 번역 서비스(Beta)")
+    st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
     st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
 
     if st.button("녹음시작"):
