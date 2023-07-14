@@ -128,7 +128,7 @@ def han_get_safety_keywords(txt, risk_words):
 def han_all_in_one_main():
     recognizer = sr.Recognizer()
     # Get the default audio device index
-    default_device_index = -1  # Change this to the desired index
+    default_device_index = 0  # Change this to the desired index
     microphone = sr.Microphone(device_index = default_device_index)
     
     if st.button("한 문장 녹음 시작"):
