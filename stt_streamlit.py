@@ -55,7 +55,7 @@ def main():
         r = sr.Recognizer()
 
         # Start the microphone input
-        with sr.Microphone(1) as source:
+        with sr.Microphone() as source:
             st.info("Listening...")
             print("----------")
             print(type(source))
