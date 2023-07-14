@@ -105,8 +105,9 @@ def han_get_safety_keywords(txt, risk_words):
     
         for line in lines:
             malist = hannanum.pos(line)
+            # print(malist)
             for word in malist:
-                if word[1] == "NNG" or word[1] == "NNP":
+                if word[1] == "N":
                     if not (word[0] in word_dict):
                         word_dict[word[0]]=0
                     word_dict[word[0]] +=1 
@@ -115,7 +116,7 @@ def han_get_safety_keywords(txt, risk_words):
             if word not in risk_words:
                 del word_dict[word]
         
-        
+        print(word_dict)
         keys = sorted(word_dict.items(), key=lambda x:x[1], reverse=True)
         df = pd.DataFrame(keys, columns=['Word', 'Count'])
         r_df = df[df["Count"]>=1]
