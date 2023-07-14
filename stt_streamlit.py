@@ -43,36 +43,11 @@ def transcribe_speech(audio):
     return text
 
 def main():
-    st.title("Speech Recognition with Streamlit")
+    st.title("안전생산 업무지시 번역 서비스(Beta)")
+    st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
 
-    # Option to choose audio input source
-    audio_source = st.radio("Select audio input source", ("File Upload", "Microphone"))
-
-    if audio_source == "File Upload":
-        # Upload an audio file
-        audio_file = st.file_uploader("Upload an audio file", type=['wav'])
-
-        if audio_file:
-            # Convert the audio file to a path
-            audio_path = audio_file.name
-
-            # Display the audio file
-            st.audio(audio_file)
-
-            # Load the audio file
-            with sr.AudioFile(audio_path) as source:
-                # Read the entire audio file
-                audio = r.record(source)
-                
-                
-            response = {
-            "success": True,
-            "error": None,
-            "transcription": None
-            }
-
-
-    elif audio_source == "Microphone":
+    if st.button("녹음시작"):
+        # audio_source == "Microphone"
         # Initialize the recognizer
         r = sr.Recognizer()
 
@@ -107,9 +82,12 @@ def main():
         except:
             pass
         try:
+            st.markdown("### Speach to Text 분석 결과")
             stt_result = response["transcription"]['alternative'][0]['transcript']
             st.markdown(f"한국말 : {stt_result}")
-
+            st.markdown("---")
+            
+            st.markdown("주요국가별 번역 내용")
             target_lang = 'en'
             trans_result = trans(stt_result, target_lang).text
             st.markdown(f"영어 : {trans_result}")
@@ -143,7 +121,7 @@ def main():
             st.markdown(f"인도네시아 : {trans_result}")
             
             st.markdown("---")
-            st.markdown("위험키워드 - Konlpy Hannanum Class 적용")
+            st.markdown("💥 위험키워드 - Konlpy Hannanum Class 적용 - 나중에 Mecab으로 변경")
             mywords = pd.read_excel("./my_words/mywords.xlsx")
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(stt_result, risk_words_list)
