@@ -3,6 +3,8 @@ import speech_recognition as sr
 from trans import trans
 from konlpy.tag import Hannanum
 import pandas as pd
+from streamlit_webrtc import webrtc_streamer
+
 
 
 def han_get_safety_keywords(txt, risk_words):
@@ -43,6 +45,7 @@ def transcribe_speech(audio):
     return text
 
 def main():
+    webrtc_streamer(key="sample")
     st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
     st.markdown("👷‍♂️ 외국인과 명확한 소통을 위해 한문장 단위로 녹음 바랍니다.")
 
@@ -78,16 +81,14 @@ def main():
             response["error"] = "Unable to recognize speech"
         
         try:
+            st.markdown("#### :blue[Speach to Text 분석 결과]")
             st.markdown(f"STT분석 결과 : {response['transcription']['alternative']}")
-        except:
-            pass
-        try:
-            st.markdown("### Speach to Text 분석 결과")
-            stt_result = response["transcription"]['alternative'][0]['transcript']
-            st.markdown(f"한국말 : {stt_result}")
             st.markdown("---")
             
-            st.markdown("주요국가별 번역 내용")
+            st.markdown("#### :blue[주요국가별 번역 내용]")
+            stt_result = response["transcription"]['alternative'][0]['transcript']
+            st.markdown(f"한국말 : {stt_result}")
+        
             target_lang = 'en'
             trans_result = trans(stt_result, target_lang).text
             st.markdown(f"영어 : {trans_result}")
@@ -121,11 +122,12 @@ def main():
             st.markdown(f"인도네시아 : {trans_result}")
             
             st.markdown("---")
-            st.markdown("💥 위험키워드 - Konlpy Hannanum Class 적용 - 나중에 Mecab으로 변경")
+            st.markdown("#### 💥:red[위험키워드] - Konlpy Hannanum Class")
             mywords = pd.read_excel("./my_words/mywords.xlsx")
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(stt_result, risk_words_list)
             keyword_df
+            
         
             return stt_result, trans_result
 
@@ -133,4 +135,5 @@ def main():
             pass
 
 if __name__ == "__main__":
+    
     main()
