@@ -169,6 +169,7 @@ if __name__ == "__main__":
     
     st.markdown("##### :red[AI Copilot] Series - :blue[안전생산]🍀")
     st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
+    st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
     st.write('\n')  # add vertical spacer
     
     st.error("✔️ 카톡 링크 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기--- :red[**크롬브라우저**]에서 오픈")
