@@ -46,7 +46,7 @@ def audio_rec_demo():
         col_playback, col_space = st.columns([0.58,0.42])
         with col_playback:
             # print(type(wav_audio_data))
-            st.info("녹음 완료")
+            # st.info("녹음 완료")
             # st.audio(wav_audio_data, format='audio/wav')
             wave_file = wave.open("output.wav", "wb")
             
@@ -75,16 +75,23 @@ def wave_to_stt():
     with sr.AudioFile(filename) as source:
         audio = recognizer.record(source)  # Read the entire audio file
 
+    response = {
+        "success": True,
+        "error": None,
+        "transcription": None
+        }
+    
     # Perform speech recognition
     try:
-        # Use Google Speech Recognition for online speech recognition (requires internet connection)
-        result = recognizer.recognize_google(audio, language='ko-KR')
-        print("Recognized speech:", result)
-        return result
+        response["transcription"] = recognizer.recognize_google(audio, language="ko-KR", show_all=True)
+        return response
+    except sr.RequestError:
+        # API was unreachable or unresponsive
+        response["success"] = False
+        response["error"] = "API unavailable"
     except sr.UnknownValueError:
-        print("Unable to recognize speech")
-    except sr.RequestError as e:
-        print("Error: {0}".format(e))
+        # speech was unintelligible
+        response["error"] = "Unable to recognize speech"
 
 def han_get_safety_keywords(txt, risk_words):
     hannanum = Hannanum()
@@ -112,44 +119,41 @@ def han_get_safety_keywords(txt, risk_words):
         return r_df
     except:
         pass
-       
-def trans_keyword(stt_result):    
-    try:
-        target_lang = 'en'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"영어 : {trans_result}")
 
-        target_lang = 'ja'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"일본어 :{trans_result}")
+
+       
+def trans_keyword(stt_result, lang_list):
+    
+    st.markdown("##### 🌻:green[번역 결과] (한글을 영어로 변환후 다시 3국어로 변환)")
+    
+    target_dict = {
+        '영어': 'en',
+        '베트남': 'vi',
+        '태국': 'th',
+        '우즈베키스탄': 'uz',
+        '인도네시아': 'id',
+        '중국': 'zh-ch',
+        '일본': 'jp'   
+        }
+    
+    # changed_input = trans(stt_result, "en").txt  # 한글을 영어로 변환후 3국언어로 번역
+    # print(changed_input)
+    # st.markdown(f"{changed_input}")
+    # target_input = changed_input
+    
+    target_input = stt_result
         
-        target_lang = 'zh-cn'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"중국어(simplified) :{trans_result}")
-        
-        target_lang = 'zh-tw'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"중국어(traditional) :{trans_result}")
-        
-        target_lang = 'vi'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"베트남어 : {trans_result}")
-        
-        target_lang = 'th'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"태국어 : {trans_result}")
-        
-        target_lang = 'uz'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"우즈베키스탄 : {trans_result}")
-        
-        target_lang = 'id'
-        trans_result = trans(stt_result, target_lang).text
-        st.markdown(f"인도네시아 : {trans_result}")
+    try:
+        for target_lang in lang_list:
+            target_lang_key = target_dict[target_lang]
+            
+            trans_result = trans(target_input, target_lang_key).text
+            st.markdown(f"😉 **{target_lang}** : {trans_result}")
+
         
         st.markdown("---")
-        st.markdown("#### 💥:red[위험키워드] - Konlpy Hannanum Class")
-        mywords = pd.read_excel("./my_words/mywords.xlsx")
+        st.markdown("##### 💥:red[위험키워드] - Konlpy Hannanum Class")
+        mywords = pd.read_excel("mywords.xlsx")
         risk_words_list = mywords["mywords"].values
         keyword_df = han_get_safety_keywords(stt_result, risk_words_list)
         keyword_df
@@ -161,17 +165,21 @@ def trans_keyword(stt_result):
         pass
 
 
-if __name__ == "__main__":
-    st.title("Client-Side Real-time Voice Record")
-    st.error("카톡으로 링크로 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기- 크롬브라우저에서 오픈")
-    st.warning("외국인 근로자 작업지시는 한문장 단위로 명확하게 해주세요")
-    st.markdown("---")
+if __name__ == "__main__":            
+    
+    st.markdown("##### :red[AI Copilot] Series - :blue[안전생산]🍀")
+    st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
+    st.write('\n')  # add vertical spacer
+    
+    st.error("✔️ 카톡 링크 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기--- :red[**크롬브라우저**]에서 오픈")
+    st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 (Start~, Stop~ 버튼)")
+    
+    
+    langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "중국", "일본"]
+    selected_lang = st.multiselect("📌 번역하고 싶은 외국어를 선택해주세요 (복수 선택 가능)", langs, ["영어", "베트남"])
     
     data = audio_rec_demo()
-    print("1")
-    print(type(data))
-    
-    
+        
     filename = "output.wav"
     sample_width = 2  # In bytes, for 16-bit audio
     sample_rate = 44100  # The number of samples per second (standard for audio CDs)
@@ -180,10 +188,34 @@ if __name__ == "__main__":
     save_wave_file(filename, data, sample_width, sample_rate, channels)
     
     text = wave_to_stt()
-    st.success(f"{text}")
     
+    try:
+        st.success(f"📢업무 지시 : {text['transcription']['alternative'][0]['transcript']}")
+        with st.expander("🐳 :blue[**All Cases of STT Review(Speech to Text)**] - 음성의 텍스트 변환 AI 검토 결과들"):
+            st.info(f"{text['transcription']['alternative']}")
+            st.markdown('''
+                        **[토막 상식] STT란 무엇인가요??**\n
+                        :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
+                        AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
+                        Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
+                        STT는 향후 음성 데이터 기반의 업무 개선의 도구로 확대될 예정입니다.                      
+                        ''')
+    except:
+        pass
     st.markdown("---")
-    trans_keyword(text)
+    
+    
+    try:
+        best_stt = text['transcription']['alternative'][0]['transcript']
+        trans_keyword(best_stt, selected_lang)
+    except:
+        pass
     st.markdown("---")
-    st.error("Created by Adannced AI Team")
-
+    
+    
+    st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
+    col1, col2 = st.columns([4,6])
+    with col1:
+        st.markdown("###### ❓ Contact : jongbae.kim@ksoe.co.kr")
+    with col2:
+        st.markdown("###### 💖 Thanks to [Stefan Rummer](https://github.com/stefanrmmr/streamlit_audio_recorder), [GoogleTrans](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")

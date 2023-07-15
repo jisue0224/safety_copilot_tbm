@@ -1,6 +1,6 @@
 import streamlit as st
 from st_custom_components import st_audio_record
-from all_in_one import han_all_in_one_main
+from dev_files.all_in_one import han_all_in_one_main
 from trans import trans
 
 

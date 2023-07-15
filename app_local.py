@@ -6,7 +6,7 @@ from notion_api import insert_data, get_pages, read_as_df
 from nlp_review import get_morphs_cnt, get_safety_keywords, get_mecab_nouns
 import pandas as pd
 from my_slack import Slack_Msg
-from all_in_one import all_in_one_main
+from dev_files.all_in_one import all_in_one_main
 from trans import trans
 
 
