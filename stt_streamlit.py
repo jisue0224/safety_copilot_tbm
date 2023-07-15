@@ -43,7 +43,7 @@ def transcribe_speech(audio):
 
     return text
 
-def main():
+def trans_keyword():
 
     
     st.title("🍀 :green[안전생산] :red[번역] :blue[서비스](Beta)")
