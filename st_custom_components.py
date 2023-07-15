@@ -4,6 +4,7 @@ import streamlit as st
 from io import BytesIO
 import streamlit.components.v1 as components
 import time
+import streamlit as st
 
 def st_audio_record():
     
@@ -42,6 +43,7 @@ def st_audio_record():
 
 
 if __name__ == "__main__":
+    st.title("Client-Side Voice Record Test")
     start_time = time.time()
     st_audio_record()
     print(type(st_audio_record()))
