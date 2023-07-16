@@ -1,7 +1,7 @@
 import streamlit as st
 from st_custom_components import st_audio_record
 from dev_files.all_in_one import han_all_in_one_main
-from trans import trans
+from dev_files.trans import trans
 
 
 st.set_page_config(page_title="AI_Copilot[Safety]")

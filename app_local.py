@@ -7,7 +7,7 @@ from nlp_review import get_morphs_cnt, get_safety_keywords, get_mecab_nouns
 import pandas as pd
 from my_slack import Slack_Msg
 from dev_files.all_in_one import all_in_one_main
-from trans import trans
+from dev_files.trans import trans
 
 
 

@@ -5,9 +5,10 @@ from io import BytesIO
 import streamlit.components.v1 as components
 import wave
 import speech_recognition as sr
-from trans import trans
+from async_trans import trans
 from konlpy.tag import Hannanum
 import pandas as pd
+import asyncio
 
 def st_audiorec():
 
@@ -136,9 +137,9 @@ def han_get_safety_keywords(txt, risk_words):
 
 
        
-def trans_keyword(stt_result, input_lang, lang_list):
+async def trans_keyword(stt_result, input_lang, target_langs):
     
-    st.markdown("##### 🌻:green[번역 결과] (한글▶️영어▶️3국어 변환)")
+    st.markdown("##### 🌻:green[번역 결과] (영어를 거쳐 3국어로 번역)")
     
     target_dict = {
         '영어': 'en',
@@ -151,19 +152,19 @@ def trans_keyword(stt_result, input_lang, lang_list):
         '한국': 'ko'
         }
     
+    selected_input_lang = target_dict[input_lang]
+    selected_target_langs = [target_dict[i] for i in target_langs]
     target_input = stt_result
-        
+    
     try:
-        for target_lang in lang_list:
-            target_lang_key = target_dict[target_lang]
-            selected_input_lang = target_dict[input_lang]
-            
-            trans_result = trans(target_input, selected_input_lang, target_lang_key).text
-            st.markdown(f"😉 **{target_lang}** : {trans_result}")
-            
-        return stt_result, trans_result
-
+        translations = await asyncio.gather(*[trans(target_input, selected_input_lang, selected_target_lang) for selected_target_lang in selected_target_langs])
+        
+        for lang, translation in zip(target_langs, translations):
+            st.markdown(f"😉 **{lang}** : {translation}")
+        
+        return translations
     except:
+        print("뭐꼬?")
         pass
 
 
@@ -173,18 +174,19 @@ if __name__ == "__main__":
     with col001:     
     
         st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀 [beta service]")
-        st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
+        st.markdown("#### :red[외국인 근로자] 작업지시 :blue[통역지원]")
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
-        st.error("🌈 카톡 링크 열고 우측 하단 버튼 + 다른 브라우저 열기--- :red[**크롬 or 사파리**]에서 오픈")
-        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
+        st.error("🌈 카톡 링크로 열때는 우측 하단 버튼 + 다른 브라우저 열기로~ :red[**크롬 or 사파리**]에서 오픈")
         
         input_langs = ["한국", "영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본"]
         target_langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본", "한국"]
         selected_input_lang = st.selectbox("📌 **입력 언어**를 선택하세요 (기본 한국어)", input_langs)
         selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, ["영어", "베트남"])
         
+        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
+
         with st.container():
             data = audio_rec_demo()
                 
@@ -197,15 +199,15 @@ if __name__ == "__main__":
             
             try:
                 text = wave_to_stt(selected_input_lang)
-                st.success(f"📢업무 지시 : {text['transcription']['alternative'][0]['transcript']}")
-                with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성의 텍스트 변환 검토"):
+                st.success(f"📢작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
                     st.info(f"{text['transcription']['alternative']}")
                     st.markdown('''
-                                **[AI 공부] STT란 무엇인가요??**\n
+                                **[AI 토막 상식] STT란 무엇인가요??**\n
                                 :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
                                 AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
                                 Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
-                                STT는 향후 음성 데이터 기반의 업무 개선의 도구로 확대될 예정입니다.                      
+                                STT는 향후 음성 데이터 기반 업무 개선 도구로 확대될 예정입니다.                      
                                 ''')
             except:
                 pass
@@ -214,22 +216,24 @@ if __name__ == "__main__":
         
         try:
             best_stt = text['transcription']['alternative'][0]['transcript']
-            trans_keyword(best_stt, selected_input_lang, selected_target_lang)
+            result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
         except:
             pass
         st.markdown("---")
         
+        mywords = pd.read_excel("mywords.xlsx")
+        
         try:
             st.markdown("##### 💥:red[위험키워드]- Hannanum Test")
-            mywords = pd.read_excel("mywords.xlsx")
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
             keyword_df
         except:
+            st.markdown("해당사항 없음")
             pass
         
-        st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
-        
         st.markdown("---")
-        st.markdown("###### ❓ Contact : jongbae.kim@ksoe.co.kr")
-        st.markdown("###### 💖 Thanks to [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [GoogleTrans](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
+
+        st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
+        st.markdown("###### 📧 Contact : jongbae.kim@ksoe.co.kr")
+        st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
