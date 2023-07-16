@@ -151,12 +151,7 @@ def trans_keyword(stt_result, lang_list):
             st.markdown(f"😉 **{target_lang}** : {trans_result}")
 
         
-        st.markdown("---")
-        st.markdown("##### 💥:red[위험키워드]-Konlpy Hannanum")
-        mywords = pd.read_excel("mywords.xlsx")
-        risk_words_list = mywords["mywords"].values
-        keyword_df = han_get_safety_keywords(stt_result, risk_words_list)
-        keyword_df
+
         
     
         return stt_result, trans_result
@@ -170,7 +165,7 @@ if __name__ == "__main__":
     col001, col002 = st.columns([5.5, 4.5])
     with col001:     
     
-        st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀")
+        st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀 [beta service]")
         st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
@@ -217,6 +212,14 @@ if __name__ == "__main__":
             pass
         st.markdown("---")
         
+        try:
+            st.markdown("##### 💥:red[위험키워드]-Konlpy Hannanum")
+            mywords = pd.read_excel("mywords.xlsx")
+            risk_words_list = mywords["mywords"].values
+            keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
+            keyword_df
+        except:
+            pass
         
         st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
         
