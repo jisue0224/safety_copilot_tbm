@@ -124,7 +124,7 @@ def han_get_safety_keywords(txt, risk_words):
        
 def trans_keyword(stt_result, lang_list):
     
-    st.markdown("##### 🌻:green[번역 결과] (한글을 영어로 변환후 다시 3국어로 변환)")
+    st.markdown("##### 🌻:green[번역 결과] (한글▶️영어▶️3국어 변환)")
     
     target_dict = {
         '영어': 'en',
@@ -152,7 +152,7 @@ def trans_keyword(stt_result, lang_list):
 
         
         st.markdown("---")
-        st.markdown("##### 💥:red[위험키워드] - Konlpy Hannanum Class")
+        st.markdown("##### 💥:red[위험키워드]-Konlpy Hannanum")
         mywords = pd.read_excel("mywords.xlsx")
         risk_words_list = mywords["mywords"].values
         keyword_df = han_get_safety_keywords(stt_result, risk_words_list)
@@ -165,58 +165,61 @@ def trans_keyword(stt_result, lang_list):
         pass
 
 
-if __name__ == "__main__":            
+if __name__ == "__main__":   
     
-    st.markdown("##### :red[AI Copilot] Series - :blue[안전생산]🍀")
-    st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
-    st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
-    st.write('\n')  # add vertical spacer
+    col001, col002 = st.columns([5.5, 4.5])
+    with col001:     
     
-    st.error("✔️ 카톡 링크 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기--- :red[**크롬브라우저**]에서 오픈")
-    st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 (Start~, Stop~ 버튼)")
-    
-    
-    langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "중국", "일본"]
-    selected_lang = st.multiselect("📌 번역하고 싶은 외국어를 선택해주세요 (복수 선택 가능)", langs, ["영어", "베트남"])
-    
-    data = audio_rec_demo()
+        st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀")
+        st.markdown("#### :red[외국인 근로자] 업무지시 :blue[통역지원]")
+        st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
+        st.write('\n')  # add vertical spacer
         
-    filename = "output.wav"
-    sample_width = 2  # In bytes, for 16-bit audio
-    sample_rate = 44100  # The number of samples per second (standard for audio CDs)
-    channels = 2 # Stereo audio
+        st.error("✔️ 카톡 링크 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기--- :red[**크롬브라우저**]에서 오픈")
+        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 (Start~, Stop~ 버튼)")
+        
+        
+        langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "중국", "일본"]
+        selected_lang = st.multiselect("📌 번역하고 싶은 외국어를 선택해주세요 (복수 선택 가능)", langs, ["영어", "베트남"])
+        
+        with st.container():
+            data = audio_rec_demo()
+                
+            filename = "output.wav"
+            sample_width = 2  # In bytes, for 16-bit audio
+            sample_rate = 44100  # The number of samples per second (standard for audio CDs)
+            channels = 2 # Stereo audio
 
-    save_wave_file(filename, data, sample_width, sample_rate, channels)
-    
-    text = wave_to_stt()
-    
-    try:
-        st.success(f"📢업무 지시 : {text['transcription']['alternative'][0]['transcript']}")
-        with st.expander("🐳 :blue[**All Cases of STT Review(Speech to Text)**] - 음성의 텍스트 변환 AI 검토 결과들"):
-            st.info(f"{text['transcription']['alternative']}")
-            st.markdown('''
-                        **[토막 상식] STT란 무엇인가요??**\n
-                        :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
-                        AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
-                        Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
-                        STT는 향후 음성 데이터 기반의 업무 개선의 도구로 확대될 예정입니다.                      
-                        ''')
-    except:
-        pass
-    st.markdown("---")
-    
-    
-    try:
-        best_stt = text['transcription']['alternative'][0]['transcript']
-        trans_keyword(best_stt, selected_lang)
-    except:
-        pass
-    st.markdown("---")
-    
-    
-    st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
-    col1, col2 = st.columns([4,6])
-    with col1:
+            save_wave_file(filename, data, sample_width, sample_rate, channels)
+            
+            text = wave_to_stt()
+            
+            try:
+                st.success(f"📢업무 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성의 텍스트 변환 검토"):
+                    st.info(f"{text['transcription']['alternative']}")
+                    st.markdown('''
+                                **[AI 공부] STT란 무엇인가요??**\n
+                                :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
+                                AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
+                                Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
+                                STT는 향후 음성 데이터 기반의 업무 개선의 도구로 확대될 예정입니다.                      
+                                ''')
+            except:
+                pass
+        st.markdown("---")
+        
+        
+        try:
+            best_stt = text['transcription']['alternative'][0]['transcript']
+            trans_keyword(best_stt, selected_lang)
+        except:
+            pass
+        st.markdown("---")
+        
+        
+        st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
+        
+        st.markdown("---")
         st.markdown("###### ❓ Contact : jongbae.kim@ksoe.co.kr")
-    with col2:
         st.markdown("###### 💖 Thanks to [Stefan Rummer](https://github.com/stefanrmmr/streamlit_audio_recorder), [GoogleTrans](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
