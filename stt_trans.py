@@ -183,7 +183,7 @@ if __name__ == "__main__":
         input_langs = ["한국", "영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본"]
         target_langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본", "한국"]
         selected_input_lang = st.selectbox("📌 **입력 언어**를 선택하세요 (기본 한국어)", input_langs)
-        selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, ["영어", "베트남"])
+        selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
         
         st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
 
@@ -229,7 +229,7 @@ if __name__ == "__main__":
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
             keyword_df
         except:
-            st.markdown("해당사항 없음")
+            st.markdown("해당사항 없음(테스트중)")
             pass
         
         st.markdown("---")
