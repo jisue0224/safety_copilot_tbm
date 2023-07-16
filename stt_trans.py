@@ -175,8 +175,8 @@ if __name__ == "__main__":
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
-        st.error("✔️ 카톡 링크 열고, 우측 하단 점 세개 버튼 + 다른 브라우저로 열기--- :red[**크롬브라우저**]에서 오픈")
-        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 (Start~, Stop~ 버튼)")
+        st.error("✔️ 카톡 링크 열고 우측 하단 버튼 + 다른 브라우저로 열기--- :red[**크롬 or 사파리**]에서 오픈")
+        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
         
         
         langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "중국", "일본"]
@@ -222,4 +222,4 @@ if __name__ == "__main__":
         
         st.markdown("---")
         st.markdown("###### ❓ Contact : jongbae.kim@ksoe.co.kr")
-        st.markdown("###### 💖 Thanks to [Stefan Rummer](https://github.com/stefanrmmr/streamlit_audio_recorder), [GoogleTrans](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
+        st.markdown("###### 💖 Thanks to [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [GoogleTrans](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")

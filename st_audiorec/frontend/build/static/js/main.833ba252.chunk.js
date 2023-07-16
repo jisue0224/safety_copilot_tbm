@@ -58,12 +58,12 @@
                       o.a.createElement(
                         'button',
                         { id: 'record', onClick: t.onClick_start },
-                        'Start Recording'
+                        'Start (녹음 시작!)'
                       ),
                       o.a.createElement(
                         'button',
                         { id: 'stop', onClick: t.onClick_stop },
-                        'Stop(녹음중지/번역)'
+                        'Stop (녹음중지/번역)'
                       ),
                       o.a.createElement(
                         'button',
