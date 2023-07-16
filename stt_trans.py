@@ -65,7 +65,21 @@ def save_wave_file(filename, data, sample_width, sample_rate, channels):
         pass     
     
 
-def wave_to_stt():
+def wave_to_stt(input_lang):
+    
+    lang_dict = {
+        '한국': 'ko-KR', 
+        '영어': 'en-US',
+        '베트남': 'vi-VN',
+        '태국': 'th-TH',
+        '우즈베키스탄': 'uz-UZ',
+        '인도네시아': 'id-ID',
+        # '중국': 'zh',
+        '일본': 'ja-JP'   
+        }
+    
+    target = lang_dict[input_lang]
+    
     filename = "output.wav"
 
     # Create an instance of the Recognizer class
@@ -83,7 +97,7 @@ def wave_to_stt():
     
     # Perform speech recognition
     try:
-        response["transcription"] = recognizer.recognize_google(audio, language="ko-KR", show_all=True)
+        response["transcription"] = recognizer.recognize_google(audio, language=target, show_all=True)
         return response
     except sr.RequestError:
         # API was unreachable or unresponsive
@@ -122,7 +136,7 @@ def han_get_safety_keywords(txt, risk_words):
 
 
        
-def trans_keyword(stt_result, lang_list):
+def trans_keyword(stt_result, input_lang, lang_list):
     
     st.markdown("##### 🌻:green[번역 결과] (한글▶️영어▶️3국어 변환)")
     
@@ -132,28 +146,21 @@ def trans_keyword(stt_result, lang_list):
         '태국': 'th',
         '우즈베키스탄': 'uz',
         '인도네시아': 'id',
-        '중국': 'zh-ch',
-        '일본': 'jp'   
+        # '중국': 'zh',
+        '일본': 'ja',
+        '한국': 'ko'
         }
-    
-    # changed_input = trans(stt_result, "en").txt  # 한글을 영어로 변환후 3국언어로 번역
-    # print(changed_input)
-    # st.markdown(f"{changed_input}")
-    # target_input = changed_input
     
     target_input = stt_result
         
     try:
         for target_lang in lang_list:
             target_lang_key = target_dict[target_lang]
+            selected_input_lang = target_dict[input_lang]
             
-            trans_result = trans(target_input, target_lang_key).text
+            trans_result = trans(target_input, selected_input_lang, target_lang_key).text
             st.markdown(f"😉 **{target_lang}** : {trans_result}")
-
-        
-
-        
-    
+            
         return stt_result, trans_result
 
     except:
@@ -170,12 +177,13 @@ if __name__ == "__main__":
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
-        st.error("✔️ 카톡 링크 열고 우측 하단 버튼 + 다른 브라우저로 열기--- :red[**크롬 or 사파리**]에서 오픈")
+        st.error("🌈 카톡 링크 열고 우측 하단 버튼 + 다른 브라우저 열기--- :red[**크롬 or 사파리**]에서 오픈")
         st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**한문장 단위**]로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
         
-        
-        langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "중국", "일본"]
-        selected_lang = st.multiselect("📌 번역하고 싶은 외국어를 선택해주세요 (복수 선택 가능)", langs, ["영어", "베트남"])
+        input_langs = ["한국", "영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본"]
+        target_langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본", "한국"]
+        selected_input_lang = st.selectbox("📌 **입력 언어**를 선택하세요 (기본 한국어)", input_langs)
+        selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, ["영어", "베트남"])
         
         with st.container():
             data = audio_rec_demo()
@@ -187,9 +195,8 @@ if __name__ == "__main__":
 
             save_wave_file(filename, data, sample_width, sample_rate, channels)
             
-            text = wave_to_stt()
-            
             try:
+                text = wave_to_stt(selected_input_lang)
                 st.success(f"📢업무 지시 : {text['transcription']['alternative'][0]['transcript']}")
                 with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성의 텍스트 변환 검토"):
                     st.info(f"{text['transcription']['alternative']}")
@@ -207,13 +214,13 @@ if __name__ == "__main__":
         
         try:
             best_stt = text['transcription']['alternative'][0]['transcript']
-            trans_keyword(best_stt, selected_lang)
+            trans_keyword(best_stt, selected_input_lang, selected_target_lang)
         except:
             pass
         st.markdown("---")
         
         try:
-            st.markdown("##### 💥:red[위험키워드]-Konlpy Hannanum")
+            st.markdown("##### 💥:red[위험키워드]- Hannanum Test")
             mywords = pd.read_excel("mywords.xlsx")
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
