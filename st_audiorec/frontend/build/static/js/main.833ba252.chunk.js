@@ -67,8 +67,8 @@
                       ),
                       o.a.createElement(
                         'button',
-                        { id: 'reset(녹음 취소)', onClick: t.onClick_reset },
-                        'Reset'
+                        { id: 'reset', onClick: t.onClick_reset },
+                        'Reset(녹음 취소)'
                       ),
                       o.a.createElement(
                         'button',
