@@ -174,7 +174,7 @@ if __name__ == "__main__":
     with col001:     
     
         st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀 [beta service]")
-        st.markdown("#### :red[외국인 근로자] 작업지시 :blue[통역지원]")
+        st.markdown("#### :green[외국인 근로자] 작업지시 :blue[통역지원]")
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
