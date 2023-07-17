@@ -99,6 +99,7 @@ def wave_to_stt(input_lang):
     # Perform speech recognition
     try:
         response["transcription"] = recognizer.recognize_google(audio, language=target, show_all=True)
+        os.remove('output.wav')
         return response
     except sr.RequestError:
         # API was unreachable or unresponsive
@@ -107,6 +108,8 @@ def wave_to_stt(input_lang):
     except sr.UnknownValueError:
         # speech was unintelligible
         response["error"] = "Unable to recognize speech"
+    
+    
 
 def han_get_safety_keywords(txt, risk_words):
     hannanum = Hannanum()
@@ -178,7 +181,7 @@ if __name__ == "__main__":
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
-        st.error("🌈 카톡 링크로 열때는 우측 하단 버튼 + 다른 브라우저 열기로~ :red[**크롬 or 사파리**]에서 오픈")
+        st.error("🌈 :red[**크롬 or 사파리**]에서 오픈~ 카톡 링크 경유 오픈시 우측 하단 버튼 + 다른 브라우저 열기 (문자 링크는 OK)")
         
         input_langs = ["한국", "영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본"]
         target_langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본", "한국"]
