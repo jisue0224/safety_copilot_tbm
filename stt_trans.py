@@ -176,7 +176,7 @@ if __name__ == "__main__":
     col001, col002 = st.columns([5.5, 4.5])
     with col001:     
     
-        st.markdown("###### :red[AI Copilot] Series - :blue[안전생산]🍀 [beta service]")
+        st.markdown("###### :red[AI Insight] Series - :blue[안전생산]🍀 [beta service]")
         st.markdown("#### :green[외국인 근로자] 작업지시 :blue[통역지원]")
         st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
@@ -203,6 +203,8 @@ if __name__ == "__main__":
             try:
                 text = wave_to_stt(selected_input_lang)
                 st.success(f"📢작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                revised_txt = st.text_area("🔄 아래 텍스트를 :blue[**수정**]하면 다시 번역됨 (부분 오타 수정)", value = text['transcription']['alternative'][0]['transcript'] )
+                
                 with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
                     st.info(f"{text['transcription']['alternative']}")
                     st.markdown('''
@@ -218,7 +220,7 @@ if __name__ == "__main__":
         
         
         try:
-            best_stt = text['transcription']['alternative'][0]['transcript']
+            best_stt = revised_txt
             result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
         except:
             pass
