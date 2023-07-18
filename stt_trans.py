@@ -203,7 +203,7 @@ if __name__ == "__main__":
             try:
                 text = wave_to_stt(selected_input_lang)
                 st.success(f"📢작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
-                revised_txt = st.text_area("🔄 아래 텍스트를 :blue[**수정**]하면 다시 번역됨 (부분 오타 수정)", value = text['transcription']['alternative'][0]['transcript'] )
+                revised_txt = st.text_area("🔄 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'] )
                 
                 with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
                     st.info(f"{text['transcription']['alternative']}")
