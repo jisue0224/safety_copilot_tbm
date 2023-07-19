@@ -69,14 +69,14 @@ def save_wave_file(filename, data, sample_width, sample_rate, channels):
 def wave_to_stt(input_lang):
     
     lang_dict = {
-        '한국': 'ko-KR', 
-        '영어': 'en-US',
-        '베트남': 'vi-VN',
-        '태국': 'th-TH',
-        '우즈베키스탄': 'uz-UZ',
-        '인도네시아': 'id-ID',
-        # '중국': 'zh',
-        '일본': 'ja-JP'   
+        '한국(KOR)': 'ko-KR', 
+        '영어(ENG)': 'en-US',
+        '베트남(VNM)': 'vi-VN',
+        '태국(THA)': 'th-TH',
+        '우즈베키스탄(UZB)': 'uz-UZ',
+        '인도네시아(IDN)': 'id-ID',
+        '중국(CHN)': 'zh',
+        '일본(JPN)': 'ja-JP'   
         }
     
     target = lang_dict[input_lang]
@@ -145,14 +145,14 @@ async def trans_keyword(stt_result, input_lang, target_langs):
     st.markdown("##### 🌻:green[번역 결과] (영어를 거쳐 3국어로 번역)")
     
     target_dict = {
-        '영어': 'en',
-        '베트남': 'vi',
-        '태국': 'th',
-        '우즈베키스탄': 'uz',
-        '인도네시아': 'id',
-        # '중국': 'zh',
-        '일본': 'ja',
-        '한국': 'ko'
+        '영어(ENG)': 'en',
+        '베트남(VNM)': 'vi',
+        '태국(THA)': 'th',
+        '우즈베키스탄(UZB)': 'uz',
+        '인도네시아(IDN)': 'id',
+        '중국(CHN)': 'zh-cn',       # chinese simplified : zh-cn, chinese traditional : zh-tw
+        '일본(JPN)': 'ja',
+        '한국(KOR)': 'ko'
         }
     
     selected_input_lang = target_dict[input_lang]
@@ -183,8 +183,8 @@ if __name__ == "__main__":
         
         st.error("🌈 :red[**크롬 or 사파리**]에서 오픈~ 카톡 링크 경유 오픈시 우측 하단 버튼 + 다른 브라우저 열기 (문자 링크는 OK)")
         
-        input_langs = ["한국", "영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본"]
-        target_langs = ["영어", "베트남", "태국", "우즈베키스탄", "인도네시아", "일본", "한국"]
+        input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)"]
+        target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)", "한국(KOR)"]
         selected_input_lang = st.selectbox("📌 **입력 언어**를 선택하세요 (기본 한국어)", input_langs)
         selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
         
