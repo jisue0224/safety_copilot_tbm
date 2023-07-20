@@ -11,7 +11,6 @@ import pandas as pd
 import asyncio
 from notion_api_cnt import insert_data, get_pages
 
-
 def st_audiorec():
 
     # get parent directory relative to current directory
@@ -40,6 +39,7 @@ def st_audiorec():
 
     return wav_bytes
 
+
 def audio_rec_demo():
     
     wav_audio_data = st_audiorec()
@@ -47,10 +47,8 @@ def audio_rec_demo():
     if wav_audio_data is not None:
         # display audio data as received on the Python side
         col_playback, col_space = st.columns([0.58,0.42])
+        
         with col_playback:
-            # print(type(wav_audio_data))
-            # st.info("녹음 완료")
-            # st.audio(wav_audio_data, format='audio/wav')
             wave_file = wave.open("output.wav", "wb")
             
     return wav_audio_data
@@ -77,6 +75,10 @@ def wave_to_stt(input_lang):
         '태국(THA)': 'th-TH',
         '우즈베키스탄(UZB)': 'uz-UZ',
         '인도네시아(IDN)': 'id-ID',
+        '스리랑카(LKA)': 'ta-LK',
+        '몽골(MNG)': 'mn-MN',
+        '카자흐스탄(KAZ)': 'kk-KZ',
+        '러시아(RUS)': 'ru-RU',
         '중국(CHN)': 'zh',
         '일본(JPN)': 'ja-JP'   
         }
@@ -111,7 +113,6 @@ def wave_to_stt(input_lang):
         # speech was unintelligible
         response["error"] = "Unable to recognize speech"
     
-    
 
 def han_get_safety_keywords(txt, risk_words):
     hannanum = Hannanum()
@@ -141,7 +142,6 @@ def han_get_safety_keywords(txt, risk_words):
         pass
 
 
-       
 async def trans_keyword(stt_result, input_lang, target_langs):
     
     st.markdown("##### 🌻:green[번역 결과] (영어를 거쳐 3국어로 번역)")
@@ -152,6 +152,10 @@ async def trans_keyword(stt_result, input_lang, target_langs):
         '태국(THA)': 'th',
         '우즈베키스탄(UZB)': 'uz',
         '인도네시아(IDN)': 'id',
+        '스리랑카(LKA)': 'si',
+        '몽골(MNG)': 'mn',
+        '카자흐스탄(KAZ)': 'kk',
+        '러시아(RUS)': 'ru',
         '중국(CHN)': 'zh-cn',       # chinese simplified : zh-cn, chinese traditional : zh-tw
         '일본(JPN)': 'ja',
         '한국(KOR)': 'ko'
@@ -189,11 +193,11 @@ if __name__ == "__main__":
         st.write('\n')  # add vertical spacer
         
         st.error("🌈 :red[**크롬 or 사파리**]에서 오픈~ 카톡 링크 경유 오픈시 우측 하단 버튼 + 다른 브라우저 열기 (문자 링크는 OK)")
-        
-        input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)"]
-        target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)", "한국(KOR)"]
-        selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요 (기본 한국어)", input_langs)
-        selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
+        with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
+            input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)', "중국(CHN)", "일본(JPN)"]
+            target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)',"중국(CHN)", "일본(JPN)", "한국(KOR)"]
+            selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요 (기본 한국어)", input_langs)
+            selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
         
         st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
 
@@ -228,13 +232,14 @@ if __name__ == "__main__":
         
         try:
             best_stt = revised_txt
-            result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
-            if result != None:
-                name = "박보검"
-                data = {
-                    "Name" : {"title": [{"text": {"content": name}}]},
-                    }
-                insert_data(data)
+            with st.spinner('Wait for it...'):
+                result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
+                if result != None:
+                    name = "박보검"
+                    data = {
+                        "Name" : {"title": [{"text": {"content": name}}]},
+                        }
+                    insert_data(data)
             
         except:
             pass
