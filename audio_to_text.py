@@ -2,7 +2,7 @@ import streamlit as st
 from pydub import AudioSegment, silence
 import speech_recognition as sr
 import os
-from notion_api import insert_data
+from dev_files.notion_api import insert_data
 
 
 def audio_to_text(audio, dept_name, sub_name, name):
