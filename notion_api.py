@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import streamlit as st
 
-NOTION_TOKEN = st.secrets['NOTION_TOKEN']
+NOTION_TOKEN = st.secrets['NOTION_TOKEN1']
 DATABASE_ID = st.secrets['DATABASE_ID']
 
 headers = {
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     status = "False"
 
     data = {
-        "dept_name" : {"title": [{"text": {"content": dept_name}}]},
+        "name" : {"title": [{"text": {"content": name}}]},
         "sub_name": {"rich_text": [{"text": {"content": sub_name}}]},
         "name": {"rich_text": [{"text": {"content": name}}]},
         "tbm_result": {"rich_text": [{"text": {"content": tbm_result}}]},

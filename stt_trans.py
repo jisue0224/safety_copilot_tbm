@@ -9,6 +9,8 @@ from async_trans import trans
 from konlpy.tag import Hannanum
 import pandas as pd
 import asyncio
+from notion_api_cnt import insert_data, get_pages
+
 
 def st_audiorec():
 
@@ -170,6 +172,11 @@ async def trans_keyword(stt_result, input_lang, target_langs):
         print("뭐꼬?")
         pass
 
+def get_visiting_count(val1, cnt):
+    if val1 != None:
+        cnt += 1
+        return cnt
+
 
 if __name__ == "__main__":   
     
@@ -185,8 +192,8 @@ if __name__ == "__main__":
         
         input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)"]
         target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", "중국(CHN)", "일본(JPN)", "한국(KOR)"]
-        selected_input_lang = st.selectbox("📌 **입력 언어**를 선택하세요 (기본 한국어)", input_langs)
-        selected_target_lang = st.multiselect("📌 **번역 언어**를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
+        selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요 (기본 한국어)", input_langs)
+        selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
         
         st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
 
@@ -222,6 +229,13 @@ if __name__ == "__main__":
         try:
             best_stt = revised_txt
             result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
+            if result != None:
+                name = "박보검"
+                data = {
+                    "Name" : {"title": [{"text": {"content": name}}]},
+                    }
+                insert_data(data)
+            
         except:
             pass
         st.markdown("---")
