@@ -254,5 +254,6 @@ if __name__ == "__main__":
         st.markdown("---")
 
         st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
+        st.markdown("###### 🔒 본 서비스는 음성 및 텍스트를 저장하지 않습니다.")
         st.markdown("###### 📧 Contact : jongbae.kim@ksoe.co.kr")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
