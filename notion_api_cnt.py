@@ -48,7 +48,7 @@ def insert_data(data: dict):
     url = 'https://api.notion.com/v1/pages'
     payload = {"parent": {"database_id": DATABASE_ID}, "properties": data}
     res = requests.post(url, json=payload, headers=headers)
-    print(f"response_status_code: {res.status_code}")
+    # print(f"response_status_code: {res.status_code}")
     return True
 
 

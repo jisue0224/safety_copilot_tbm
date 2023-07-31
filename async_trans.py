@@ -6,7 +6,7 @@ async def trans(txt, input_lang, target_lang):
     trans = Translator()
     en_result = await trans.translate(txt, src=input_lang, dest="en")
     result = await trans.translate(en_result.text, src='en', dest=target_lang)
-    print(result.text)
+    # print(result.text)
     return result.text
 
 async def main(txt):

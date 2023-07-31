@@ -1,4 +1,5 @@
 import os
+import time
 import numpy as np
 import streamlit as st
 from io import BytesIO
@@ -9,7 +10,7 @@ from async_trans import trans
 from konlpy.tag import Hannanum
 import pandas as pd
 import asyncio
-from notion_api_cnt import insert_data, get_pages
+from notion_api_cnt import insert_data
 
 def st_audiorec():
 
@@ -173,7 +174,7 @@ async def trans_keyword(stt_result, input_lang, target_langs):
         
         return translations
     except:
-        print("뭐꼬?")
+        # print("뭐꼬?")
         pass
 
 def get_visiting_count(val1, cnt):
@@ -202,6 +203,8 @@ if __name__ == "__main__":
         st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
 
         with st.container():
+
+
             data = audio_rec_demo()
                 
             filename = "output.wav"
@@ -209,11 +212,20 @@ if __name__ == "__main__":
             sample_rate = 44100  # The number of samples per second (standard for audio CDs)
             channels = 2 # Stereo audio
 
-            save_wave_file(filename, data, sample_width, sample_rate, channels)
             
             try:
+                
+                start_time = time.time()
+
+                save_wave_file(filename, data, sample_width, sample_rate, channels)
+
                 text = wave_to_stt(selected_input_lang)
-                st.success(f"📢작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+
+                time_delta = time.time() - start_time
+
+                st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
+
                 revised_txt = st.text_area("🔄 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'] )
                 
                 with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
@@ -233,9 +245,14 @@ if __name__ == "__main__":
         try:
             best_stt = revised_txt
             with st.spinner('Wait for it...'):
+
+                start_time = time.time()
                 result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
+                time_delta = time.time() - start_time
+                st.markdown(f"[🕒 번역 소요시간: :red[{np.round(time_delta,1)}]초]")
+
                 if result != None:
-                    name = "박보검"
+                    name = result
                     data = {
                         "Name" : {"title": [{"text": {"content": name}}]},
                         }
