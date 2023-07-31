@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
         with st.container():
 
-
+            start_time = time.time()
             data = audio_rec_demo()
                 
             filename = "output.wav"
@@ -214,8 +214,7 @@ if __name__ == "__main__":
 
             
             try:
-                
-                start_time = time.time()
+
 
                 save_wave_file(filename, data, sample_width, sample_rate, channels)
 
@@ -252,7 +251,7 @@ if __name__ == "__main__":
                 st.markdown(f"[🕒 번역 소요시간: :red[{np.round(time_delta,1)}]초]")
 
                 if result != None:
-                    name = result
+                    name = "류현진"
                     data = {
                         "Name" : {"title": [{"text": {"content": name}}]},
                         }
