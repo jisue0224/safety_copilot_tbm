@@ -17,7 +17,8 @@ import requests
 
 
 ## Directly via URL
-url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")
+# url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
+url = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")
 url_json = dict()
 if url.status_code == 200:
     url_json = url.json()
@@ -201,23 +202,21 @@ if __name__ == "__main__":
 
 
     col001, col002 = st.columns([5.5, 4.5])
-    with col001:     
-        st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
 
-        col0001, col0002 = st.columns([1.7,8.3])
-        with col0001:
-            st_lottie(url_json,
-              height=60,
-              width=60,
-              speed=1,
-              loop=True,
-              quality='high',
-              key='Boy')
-        
-        with col0002:
-            st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
-            st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
-        st.write('\n')  # add vertical spacer
+    with col001:   
+
+        st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
+        st.markdown("##### :green[외국인 근로자] :blue[통역지원]")
+        st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
+        # st.write('\n')  # add vertical spacer
+    
+        st_lottie(url_json,
+            height=70,
+            width=400,
+            speed=1,
+            loop=True,
+            quality='high',
+            key='Boy')
         
         with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
             input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)', "중국(CHN)", "일본(JPN)"]
