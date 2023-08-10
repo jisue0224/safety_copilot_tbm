@@ -212,7 +212,7 @@ if __name__ == "__main__":
     
         st_lottie(url_json,
             height=70,
-            width=400,
+            width=350,
             speed=1,
             loop=True,
             quality='high',
