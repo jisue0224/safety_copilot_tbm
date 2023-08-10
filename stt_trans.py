@@ -199,7 +199,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 외국인 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ Button)**]")
+        st.warning("👨‍🔧 작업지시는 :red[**쉬운 단어, 한문장**]으로 명확하게! :blue[**(Start / Stop Button)**]")
 
         with st.container():
 
@@ -281,7 +281,7 @@ if __name__ == "__main__":
         
         st.markdown("---")
 
-        st.error("⚽ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
-        st.markdown("###### ⚠️ 본 서비스는 음성과 텍스트를 저장하지 않습니다.")
-        st.markdown("###### 📧 Contact : jongbae.kim@ksoe.co.kr")
+        st.error("⚽ ***Created by :red[Advanced AI Team]***")
+        st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않습니다.")
+        st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
