@@ -145,7 +145,7 @@ def han_get_safety_keywords(txt, risk_words):
 
 async def trans_keyword(stt_result, input_lang, target_langs):
     
-    st.markdown("##### 🌻:green[번역 결과] (영어를 거쳐 3국어로 번역)")
+    st.markdown("##### 🌻:green[번역 결과]")
     
     target_dict = {
         '영어(ENG)': 'en',
@@ -188,9 +188,9 @@ if __name__ == "__main__":
     col001, col002 = st.columns([5.5, 4.5])
     with col001:     
     
-        st.markdown("###### :red[AI Insight] Series - :blue[안전생산]🍀 [beta service]")
-        st.markdown("#### :green[외국인 근로자] 작업지시 :blue[통역지원]")
-        st.markdown("###### :violet[(Work Order Translation Service for Foreign Workers)]")
+        st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta service]")
+        st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
+        st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
         with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
@@ -199,7 +199,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 외국인 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
+        st.warning("👨‍🔧 외국인 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ Button)**]")
 
         with st.container():
 
@@ -224,7 +224,7 @@ if __name__ == "__main__":
                     st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
                     st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
 
-                    revised_txt = st.text_area("🔄 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
+                    revised_txt = st.text_area("🔦 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
                     
                     with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
                         st.info(f"{text['transcription']['alternative']}")
@@ -239,7 +239,7 @@ if __name__ == "__main__":
                     pass
 
             else:
-                revised_txt = st.text_area("🔄 **:blue[텍스트]** 직접 입력후 번역 (입력후 글상자 외부 터치)")
+                revised_txt = st.text_area("🔧 **:blue[텍스트]** 직접 입력후 번역 (입력후 글상자 외부 터치)")
 
         st.markdown("---")
         
@@ -281,7 +281,7 @@ if __name__ == "__main__":
         
         st.markdown("---")
 
-        st.error("⚾ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
-        st.markdown("###### 🔒 본 서비스는 음성 및 텍스트를 저장하지 않습니다.")
+        st.error("⚽ ***Created by :red[Advanced AI Team] in :blue[AI Center]***")
+        st.markdown("###### ⚠️ 본 서비스는 음성과 텍스트를 저장하지 않습니다.")
         st.markdown("###### 📧 Contact : jongbae.kim@ksoe.co.kr")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
