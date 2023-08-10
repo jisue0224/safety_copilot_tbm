@@ -11,6 +11,20 @@ from konlpy.tag import Hannanum
 import pandas as pd
 import asyncio
 from notion_api_cnt import insert_data
+import json
+from streamlit_lottie import st_lottie
+import requests
+
+
+## Directly via URL
+url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")
+url_json = dict()
+if url.status_code == 200:
+    url_json = url.json()
+else:
+      print("Error in URL")
+
+
 
 def st_audiorec():
 
@@ -184,13 +198,25 @@ def get_visiting_count(val1, cnt):
 
 
 if __name__ == "__main__":   
-    
+
+
     col001, col002 = st.columns([5.5, 4.5])
     with col001:     
-    
-        st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta service]")
-        st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
-        st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
+        st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
+
+        col0001, col0002 = st.columns([1.7,8.3])
+        with col0001:
+            st_lottie(url_json,
+              height=60,
+              width=60,
+              speed=1,
+              loop=True,
+              quality='high',
+              key='Boy')
+        
+        with col0002:
+            st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
+            st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
         with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
@@ -282,6 +308,6 @@ if __name__ == "__main__":
         st.markdown("---")
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")
-        st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않습니다.")
+        st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않음")
         st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
