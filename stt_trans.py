@@ -190,72 +190,79 @@ if __name__ == "__main__":
     
         st.markdown("###### :red[AI Insight] Series - :blue[안전생산]🍀 [beta service]")
         st.markdown("#### :green[외국인 근로자] 작업지시 :blue[통역지원]")
-        st.markdown("###### :violet[(AI Work Order Translation Service for Foreign Workers)]")
+        st.markdown("###### :violet[(Work Order Translation Service for Foreign Workers)]")
         st.write('\n')  # add vertical spacer
         
-        st.error("🌈 :red[**크롬 or 사파리**]에서 오픈~ 카톡 링크 경유 오픈시 우측 하단 버튼 + 다른 브라우저 열기 (문자 링크는 OK)")
         with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
             input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)', "중국(CHN)", "일본(JPN)"]
             target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)',"중국(CHN)", "일본(JPN)", "한국(KOR)"]
-            selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요 (기본 한국어)", input_langs)
-            selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요 (복수 선택 가능)", target_langs, target_langs)
+            selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
+            selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 외국인 근로자 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
+        st.warning("👨‍🔧 외국인 작업지시는 :red[**쉬운 단어 + 한문장**]으로 명확하게 해주세요 :blue[**(Start~, Stop~ 버튼)**]")
 
         with st.container():
 
             start_time = time.time()
             data = audio_rec_demo()
+
+            if data:
                 
-            filename = "output.wav"
-            sample_width = 2  # In bytes, for 16-bit audio
-            sample_rate = 44100  # The number of samples per second (standard for audio CDs)
-            channels = 2 # Stereo audio
+                filename = "output.wav"
+                sample_width = 2  # In bytes, for 16-bit audio
+                sample_rate = 44100  # The number of samples per second (standard for audio CDs)
+                channels = 2 # Stereo audio
 
-            
-            try:
+                try:
 
+                    save_wave_file(filename, data, sample_width, sample_rate, channels)
 
-                save_wave_file(filename, data, sample_width, sample_rate, channels)
+                    text = wave_to_stt(selected_input_lang)
 
-                text = wave_to_stt(selected_input_lang)
+                    time_delta = time.time() - start_time
 
-                time_delta = time.time() - start_time
+                    st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                    st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
 
-                st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
-                st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
+                    revised_txt = st.text_area("🔄 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
+                    
+                    with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
+                        st.info(f"{text['transcription']['alternative']}")
+                        st.markdown('''
+                                    **[AI 토막 상식] STT란 무엇인가요??**\n
+                                    :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
+                                    AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
+                                    Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
+                                    STT는 향후 음성 데이터 기반 업무 개선 도구로 확대될 예정입니다.                      
+                                    ''')
+                except:
+                    pass
 
-                revised_txt = st.text_area("🔄 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'] )
-                
-                with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
-                    st.info(f"{text['transcription']['alternative']}")
-                    st.markdown('''
-                                **[AI 토막 상식] STT란 무엇인가요??**\n
-                                :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
-                                AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
-                                Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
-                                STT는 향후 음성 데이터 기반 업무 개선 도구로 확대될 예정입니다.                      
-                                ''')
-            except:
-                pass
+            else:
+                revised_txt = st.text_area("🔄 **:blue[텍스트]** 직접 입력후 번역 (입력후 글상자 외부 터치)")
+
         st.markdown("---")
         
         
         try:
             best_stt = revised_txt
-            with st.spinner('Wait for it...'):
 
-                start_time = time.time()
-                result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
-                time_delta = time.time() - start_time
-                st.markdown(f"[🕒 번역 소요시간: :red[{np.round(time_delta,1)}]초]")
+            if best_stt:
+                with st.spinner('Wait for it...'):
 
-                if result != None:
-                    name = "류현진"
-                    data = {
-                        "Name" : {"title": [{"text": {"content": name}}]},
-                        }
-                    insert_data(data)
+                    start_time = time.time()
+                    result = asyncio.run(trans_keyword(best_stt, selected_input_lang, selected_target_lang))
+                    time_delta = time.time() - start_time
+                    st.markdown(f"[🕒 번역 소요시간: :red[{np.round(time_delta,1)}]초]")
+
+                    if result != None:
+                        name = "류현진"
+                        data = {
+                            "Name" : {"title": [{"text": {"content": name}}]},
+                            }
+                        insert_data(data)
+            else:
+                pass
             
         except:
             pass
