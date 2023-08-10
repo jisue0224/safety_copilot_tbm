@@ -206,7 +206,7 @@ if __name__ == "__main__":
     with col001:   
 
         st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
-        st.markdown("##### :green[외국인 근로자] :blue[통역지원]")
+        st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
         st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
         # st.write('\n')  # add vertical spacer
     
@@ -260,15 +260,13 @@ if __name__ == "__main__":
                                     Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
                                     STT는 향후 음성 데이터 기반 업무 개선 도구로 확대될 예정입니다.                      
                                     ''')
+                        st.markdown("---")
                 except:
                     pass
 
             else:
                 revised_txt = st.text_area("🔧 **:blue[텍스트]** 직접 입력후 번역 (입력후 글상자 외부 터치)")
 
-        st.markdown("---")
-        
-        
         try:
             best_stt = revised_txt
 
@@ -286,12 +284,13 @@ if __name__ == "__main__":
                             "Name" : {"title": [{"text": {"content": name}}]},
                             }
                         insert_data(data)
+                        st.markdown("---")
             else:
                 pass
             
         except:
             pass
-        st.markdown("---")
+        
         
         mywords = pd.read_excel("mywords.xlsx")
         
@@ -304,7 +303,7 @@ if __name__ == "__main__":
             st.markdown("해당사항 없음(테스트중)")
             pass
         
-        st.markdown("---")
+        # st.markdown("---")
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")
         st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않음")
