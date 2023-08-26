@@ -84,7 +84,7 @@
                         type: 'audio/wav',
                         backgroundColor: 'rgb(255, 255, 255)',
                         foregroundColor: 'rgb(255,76,75)',
-                        canvasWidth: 350,  //450
+                        canvasWidth: 330,  //450
                         canvasHeight: 80,
                       }),
                       o.a.createElement('audio', {
