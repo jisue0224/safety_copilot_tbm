@@ -8,7 +8,7 @@
     28: function (t, e, a) {
       'use strict'
       a.r(e)
-      var n = a(6),
+      var n = a(6),  //6
         o = a.n(n),
         r = a(15),
         c = a.n(r),
@@ -38,6 +38,7 @@
                   recordState: null,
                   audioDataURL: '',
                   reset: !1,
+
                 }),
                 (t.render = function () {
                   var e = t.props.theme,
@@ -58,36 +59,38 @@
                       o.a.createElement(
                         'button',
                         { id: 'record', onClick: t.onClick_start },
-                        'Start (녹음 시작!)'
+                        'Start (녹음 시작)'
                       ),
+
                       o.a.createElement(
                         'button',
                         { id: 'stop', onClick: t.onClick_stop },
-                        'Stop (녹음중지/번역)'
+                        'Stop (녹음 번역)'
                       ),
+
                       o.a.createElement(
                         'button',
                         { id: 'reset', onClick: t.onClick_reset },
                         'Reset(녹음 취소)'
                       ),
-                      o.a.createElement(
-                        'button',
-                        { id: 'continue', onClick: t.onClick_continue },
-                        'Download'
-                      ),
+                      // o.a.createElement(
+                      //   'button',
+                      //   { id: 'continue', onClick: t.onClick_continue },
+                      //   'Download'
+                      // ),
                       o.a.createElement(p.b, {
                         state: n,
                         onStop: t.onStop_audio,
                         type: 'audio/wav',
                         backgroundColor: 'rgb(255, 255, 255)',
                         foregroundColor: 'rgb(255,76,75)',
-                        canvasWidth: 450,
-                        canvasHeight: 100,
+                        canvasWidth: 350,  //450
+                        canvasHeight: 80,
                       }),
                       o.a.createElement('audio', {
                         id: 'audio',
                         controls: !0,
-                        src: t.state.audioDataURL,
+                        src: t.state.audioDataURL
                       })
                     )
                   )
@@ -97,12 +100,32 @@
                     reset: !1,
                     audioDataURL: '',
                     recordState: p.a.START,
+                    
+                  }),
+                    console.log('start')
+                    d.a.setComponentValue('')
+                }),
+                (t.onClick_start = function () {
+                  t.setState({
+                    reset: !1,
+                    recordState: p.a.STOP,
+                  })
+                  console.log('stop')
+                }),
+                
+                (t.onClick_start = function () {
+                  t.setState({
+                    reset: !1,
+                    audioDataURL: '',
+                    recordState: p.a.START,
                   }),
                     d.a.setComponentValue('')
                 }),
+
                 (t.onClick_stop = function () {
                   t.setState({ reset: !1, recordState: p.a.STOP })
                 }),
+
                 (t.onClick_reset = function () {
                   t.setState({
                     reset: !0,

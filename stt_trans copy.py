@@ -14,12 +14,11 @@ from notion_api_cnt import insert_data
 import json
 from streamlit_lottie import st_lottie
 import requests
-import random
 
 
 ## Directly via URL
-url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
-# url = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")
+# url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
+url = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")
 url_json = dict()
 if url.status_code == 200:
     url_json = url.json()
@@ -161,7 +160,7 @@ def han_get_safety_keywords(txt, risk_words):
 
 async def trans_keyword(stt_result, input_lang, target_langs):
     
-    st.markdown("##### 🌻:green[번역 결과] - Translation Results")
+    st.markdown("##### 🌻:green[번역 결과]")
     
     target_dict = {
         '영어(ENG)': 'en',
@@ -184,12 +183,9 @@ async def trans_keyword(stt_result, input_lang, target_langs):
     
     try:
         translations = await asyncio.gather(*[trans(target_input, selected_input_lang, selected_target_lang) for selected_target_lang in selected_target_langs])
-
-        icons = ["😁", "😍", "😉", "😆", "😜", "😊"]
         
         for lang, translation in zip(target_langs, translations):
-
-            st.markdown(f"{random.choice(icons)} **{lang}** : {translation}")
+            st.markdown(f"😉 **{lang}** : {translation}")
         
         return translations
     except:
@@ -228,7 +224,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게! :blue[**(Start / Stop Button)**]")
+        st.warning("👨‍🔧 작업지시는 :red[**쉬운 단어, 한문장**]으로 명확하게! :blue[**(Start / Stop Button)**]")
 
         with st.container():
 
@@ -253,9 +249,9 @@ if __name__ == "__main__":
                     st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
                     st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
 
-                    revised_txt = st.text_area("🔦 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
+                    revised_txt = st.text_area("🔦 아래 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
                     
-                    with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환"):
+                    with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환 검토"):
                         st.info(f"{text['transcription']['alternative']}")
                         st.markdown('''
                                     **[AI 토막 상식] STT란 무엇인가요??**\n
@@ -264,11 +260,12 @@ if __name__ == "__main__":
                                     Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
                                     STT는 향후 음성 데이터 기반 업무 개선 도구로 확대될 예정입니다.                      
                                     ''')
+                        st.markdown("---")
                 except:
                     pass
 
             else:
-                revised_txt = st.text_area("🔧 **:blue[텍스트]** 입력후 번역 (입력후 글상자 외부 터치)")
+                revised_txt = st.text_area("🔧 **:blue[텍스트]** 직접 입력후 번역 (입력후 글상자 외부 터치)")
 
         try:
             best_stt = revised_txt
@@ -298,23 +295,14 @@ if __name__ == "__main__":
         mywords = pd.read_excel("mywords.xlsx")
         
         try:
-            st.markdown("##### 💥:red[위험키워드]- Risk Keywords")
+            st.markdown("##### 💥:red[위험키워드]- Hannanum Test")
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
-
-
-            st.dataframe(keyword_df,
-                         column_config = {
-                             "Word": "Risk Word",
-                             "Count": st.column_config.NumberColumn(
-                                 "Risk Count",
-                                 help="Number of Dangerous Keywords",
-                                 format="🚨    %d ",
-                                 ),
-                                  },hide_index=True)
+            keyword_df
         except:
             st.markdown("해당사항 없음(테스트중)")
             pass
+        
         # st.markdown("---")
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")

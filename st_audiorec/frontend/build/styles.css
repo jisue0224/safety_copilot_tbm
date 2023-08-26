@@ -35,6 +35,8 @@ button{
     border-radius: 0.25rem;
     margin-top: 0.75rem;
     margin-bottom: 0.25rem;
+    width: 30%;
+    height: 60px;
 }
 
 button:hover{
@@ -54,6 +56,6 @@ button:hover{
 }
 
 audio {
-  width: 450px;
+  width: 350px;
   height: 45px;
 }
