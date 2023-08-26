@@ -15,6 +15,7 @@ import json
 from streamlit_lottie import st_lottie
 import requests
 import random
+from PIL import Image
 
 
 ## Directly via URL
@@ -321,3 +322,7 @@ if __name__ == "__main__":
         st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않음")
         st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
+
+        st.markdown("")
+        image = Image.open('android_qrcode.png')
+        st.image(image, caption='Installation QR code for Android')
