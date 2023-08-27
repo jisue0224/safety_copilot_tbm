@@ -19,9 +19,16 @@ from PIL import Image
 
 
 ## Directly via URL
-url = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
-# url = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")
+url1 = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
+url2 = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")  # 추상적인 이미지
+
+
+urls = [url1, url2]
+
 url_json = dict()
+
+url = random.choice(urls)
+
 if url.status_code == 200:
     url_json = url.json()
 else:
@@ -229,7 +236,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게! :blue[**(Start / Stop Button)**]")
+        st.warning("👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게!")
 
         with st.container():
 
