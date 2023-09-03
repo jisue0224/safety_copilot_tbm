@@ -16,14 +16,17 @@ from streamlit_lottie import st_lottie
 import requests
 import random
 from PIL import Image
+from random_unsplash import img_requests
 
 
 ## Directly via URL
 url1 = requests.get("https://lottie.host/a9ec5968-0173-4012-8b31-ffe5c10c42b0/eL1psY7u3E.json")  # 웃는 얼굴
 url2 = requests.get("https://lottie.host/0f59c97a-2f8e-41d6-945a-31fa65adbfd1/KQPnGpwk3W.json")  # 추상적인 이미지
+url3 = requests.get("https://lottie.host/6da74865-6a7f-4a73-ae14-d159b86a90e7/7UT8w2RzPi.json")  # 로켓트 이미지
+url4 = requests.get("https://lottie.host/19a0f1e2-fbbb-421f-b8f7-da0941acd471/qdRzWfnV8z.json")  # 경광등 이미지
+url5 = requests.get("https://lottie.host/40d44eff-8dad-4b81-b141-38690f4cba8a/BJBNWLT9Ue.json")  # 대화 이미지
 
-
-urls = [url1, url2]
+urls = [url1, url2, url3, url4, url5]
 
 url_json = dict()
 
@@ -212,12 +215,12 @@ if __name__ == "__main__":
     with col001:   
 
         st.markdown("###### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
-        st.markdown("#### :green[외국인 근로자] :blue[통역지원]")
+        st.markdown("#### :green[외국인 근로자] :blue[통역 지원]")
         st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
         # st.write('\n')  # add vertical spacer
     
         st_lottie(url_json,
-            height=70,
+            height=120,
             width=350,
             speed=1,
             loop=True,
@@ -327,3 +330,7 @@ if __name__ == "__main__":
         st.markdown("")
         image = Image.open('android_qrcode.png')
         st.image(image, caption='Installation QR code for Android')
+        st.markdown("---")
+        my_image = img_requests("family")
+        st.image(my_image[0], width=400, caption="Lovely Family")
+        
