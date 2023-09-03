@@ -204,12 +204,6 @@ async def trans_keyword(stt_result, input_lang, target_langs):
         # print("뭐꼬?")
         pass
 
-def get_visiting_count(val1, cnt):
-    if val1 != None:
-        cnt += 1
-        return cnt
-
-
 if __name__ == "__main__":   
 
 
@@ -290,7 +284,7 @@ if __name__ == "__main__":
                     st.markdown(f"[🕒 번역 소요시간: :red[{np.round(time_delta,1)}]초]")
 
                     if result != None:
-                        name = "류현진"
+                        name = "조인성"
                         data = {
                             "Name" : {"title": [{"text": {"content": name}}]},
                             }
@@ -315,7 +309,7 @@ if __name__ == "__main__":
                          column_config = {
                              "Word": "Risk Word",
                              "Count": st.column_config.NumberColumn(
-                                 "Risk Count",
+                                 "Count",
                                  help="Number of Dangerous Keywords",
                                  format="🚨    %d ",
                                  ),
