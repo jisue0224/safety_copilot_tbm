@@ -327,10 +327,13 @@ if __name__ == "__main__":
         st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
         st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
 
-        st.markdown("")
-        image = Image.open('android_qrcode.png')
-        st.image(image, caption='Installation QR code for Android')
         st.markdown("---")
         my_image = img_requests("family")
         st.image(my_image[0], width=400, caption="Lovely Family")
+
+        st.markdown("")
+        with st.expander("🐬 Google Play App 설치 QR"):
+            image = Image.open('android_qrcode.png')
+            st.image(image, caption='Installation QR code for Android')
+        
         
