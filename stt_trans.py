@@ -307,33 +307,31 @@ if __name__ == "__main__":
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
 
-
-            st.dataframe(keyword_df,
-                         column_config = {
-                             "Word": "Risk Word",
-                             "Count": st.column_config.NumberColumn(
-                                 "Count",
-                                 help="Number of Dangerous Keywords",
-                                 format="🚨    %d ",
-                                 ),
-                                  },hide_index=True)
+            if best_stt:
+                st.dataframe(keyword_df,
+                            column_config = {
+                                "Word": "Risk Word",
+                                "Count": st.column_config.NumberColumn(
+                                    "Count",
+                                    help="Number of Dangerous Keywords",
+                                    format="🚨    %d ",
+                                    ),
+                                    },hide_index=True)
         except:
             st.markdown("해당사항 없음(테스트중)")
             pass
         # st.markdown("---")
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")
-        st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않음")
-        st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
-        st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
-
-        st.markdown("---")
         my_image = img_requests("family")
         st.image(my_image[0], width=400, caption="Lovely Family")
 
-        st.markdown("")
         with st.expander("🐬 Google Play App 설치 QR"):
             image = Image.open('android_qrcode.png')
             st.image(image, caption='Installation QR code for Android')
+            st.markdown("###### ⚠️ 본 서비스는 음성/텍스트를 저장하지 않음")
+            st.markdown("###### 📧 Contact : jongbaekim0710@gmail.com")
+            st.markdown("###### 💖 Supported by [Stefan](https://github.com/stefanrmmr/streamlit_audio_recorder), [Google](https://github.com/ssut/py-googletrans), [Konlpy](https://konlpy.org/ko/latest/index.html), etc.")
+
         
         
