@@ -303,11 +303,12 @@ if __name__ == "__main__":
         mywords = pd.read_excel("mywords.xlsx")
         
         try:
-            st.markdown("##### 💥:red[위험키워드]- Risk Keywords")
+            
             risk_words_list = mywords["mywords"].values
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
 
             if best_stt:
+                st.markdown("##### 💥:red[위험키워드]- Risk Keywords")
                 st.dataframe(keyword_df,
                             column_config = {
                                 "Word": "Risk Word",
