@@ -199,7 +199,7 @@ async def trans_keyword(stt_result, input_lang, target_langs):
         
         for lang, translation in zip(target_langs, translations):
 
-            st.markdown(f"{random.choice(icons)} **{lang}** : {translation}")
+            st.markdown(f"#### {random.choice(icons)} **{lang}** : {translation}")
         
         return translations
     except:
@@ -214,14 +214,14 @@ if __name__ == "__main__":
 
     with col001:   
 
-        st.markdown("### :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
+        st.markdown("## :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
         st.markdown("# :green[외국인 근로자] :blue[통역 지원]")
-        st.markdown("#### :violet[(Translation Service for Foreign Workers)]")
+        st.markdown("## :violet[(Translation Service for Foreign Workers)]")
         # st.write('\n')  # add vertical spacer
     
         st_lottie(url_json,
-            height=120,
-            width=350,
+            # height=150,
+            # width=700,
             speed=1,
             loop=True,
             quality='high',
@@ -233,7 +233,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게!")
+        st.warning("### 👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게!")
 
         with st.container():
 
@@ -308,8 +308,8 @@ if __name__ == "__main__":
             keyword_df = han_get_safety_keywords(best_stt, risk_words_list)
 
             if best_stt:
-                st.markdown("##### 💥:red[위험키워드]- Risk Keywords")
-                st.dataframe(keyword_df,
+                st.markdown("### 💥:red[위험키워드]- Risk Keywords")
+                st.dataframe(keyword_df, width=500,
                             column_config = {
                                 "Word": "Risk Word",
                                 "Count": st.column_config.NumberColumn(
