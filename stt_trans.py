@@ -209,8 +209,9 @@ async def trans_keyword(stt_result, input_lang, target_langs):
 
 if __name__ == "__main__":   
 
+    st.set_page_config(layout="centered")
 
-    col001, col002 = st.columns([5.5, 4.5])
+    col001, col002 = st.columns([9, 0.1])
 
     with col001:   
 
