@@ -210,7 +210,7 @@ if __name__ == "__main__":
 
     st.set_page_config(layout="centered")
 
-    col001, col002 = st.columns([9, 0.1])
+    col001, col002 = st.columns([9.9, 0.01])
 
     with col001:   
 
