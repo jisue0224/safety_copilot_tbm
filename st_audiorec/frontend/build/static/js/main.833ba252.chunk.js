@@ -71,7 +71,7 @@
                       o.a.createElement(
                         'button',
                         { id: 'reset', onClick: t.onClick_reset },
-                        'Reset'
+                        'Reset/다시'
                       ),
                       // o.a.createElement(
                       //   'button',

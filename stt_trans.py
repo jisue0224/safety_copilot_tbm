@@ -273,7 +273,7 @@ if __name__ == "__main__":
                     pass
 
             else:
-                revised_txt = st.text_area("🔧 **:blue[텍스트]** 입력후 번역 (입력후 글상자 외부 터치)")
+                revised_txt = st.text_area("## 🔧 **:blue[텍스트]** 입력후 번역 (입력후 글상자 외부 터치)")
 
         try:
             best_stt = revised_txt
