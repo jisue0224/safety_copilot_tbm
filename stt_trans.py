@@ -90,7 +90,6 @@ def save_wave_file(filename, data, sample_width, sample_rate, channels):
             wave_file.writeframes(data)
         
     except:
-        # print("뭐니")
         pass     
     
 
@@ -326,7 +325,7 @@ if __name__ == "__main__":
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")
         my_image = img_requests("family")
-        st.image(my_image[0], width=400, caption="Lovely Family")
+        st.image(my_image[0], caption="Lovely Family")
 
         with st.expander("🐬 Google Play App 설치 QR"):
             image = Image.open('android_qrcode.png')
