@@ -238,14 +238,14 @@ if __name__ == "__main__":
 
     with col001:   
 
-        st.markdown("## :red[AI TRANS]  for :blue[SAFETY]🍀 [beta]")
+        st.markdown("## :red[AI TRANS]  for :blue[SAFETY]🍀")
         st.markdown("# :green[외국인 근로자] :blue[통역 지원]")
-        st.markdown("## :violet[(Translation Service for Foreign Workers)]")
+        st.markdown("##### :violet[(Translation Service for Foreign Workers)]")
         # st.write('\n')  # add vertical spacer
     
         st_lottie(url_json,
-            # height=150,
-            # width=700,
+            height=150,
+            # width=200,
             speed=1,
             loop=True,
             quality='high',
@@ -257,7 +257,7 @@ if __name__ == "__main__":
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
             selected_target_lang = st.multiselect("📌 **번역 언어**(Output)를 선택해주세요", target_langs, target_langs)
         
-        st.warning("## 👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게!")
+        st.warning(" 👨‍🔧 작업지시는 :red[**쉽게, 한문장**]으로 명확하게!")
 
         with st.container():
 
@@ -279,7 +279,7 @@ if __name__ == "__main__":
 
                     time_delta = time.time() - start_time
 
-                    st.success(f"📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                    st.success(f" 📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
                     st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
 
                     revised_txt = st.text_area("🔦 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
@@ -297,7 +297,7 @@ if __name__ == "__main__":
                     pass
 
             else:
-                revised_txt = st.text_area("## 🔧 **:blue[텍스트]** 입력후 번역 (입력후 글상자 외부 터치)")
+                revised_txt = st.text_area(" 🔧 **:blue[텍스트]** 입력후 번역 (입력후 글상자 외부 터치)")
 
         try:
             best_stt = revised_txt
