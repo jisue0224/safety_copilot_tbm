@@ -66,11 +66,11 @@ class StAudioRec extends StreamlitComponentBase<State> {
             canvasHeight={100}
           />
 
-          <audio
+          {/* <audio
             id='audio'
             controls
             src={this.state.audioDataURL}
-          />
+          /> */}
 
         </div>
       </span>

@@ -251,7 +251,7 @@ if __name__ == "__main__":
             quality='high',
             key='Boy')
         
-        with st.expander("🌏 :green[**언어를 선택해주세요. (Select Languages)**]"):
+        with st.expander("🌏 :green[**다중 번역 언어 선택 (전체 선택 상태임)**]"):
             input_langs = ["한국(KOR)", "영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)', "중국(CHN)", "일본(JPN)"]
             target_langs = ["영어(ENG)", "베트남(VNM)", "태국(THA)", "우즈베키스탄(UZB)", "인도네시아(IDN)", '스리랑카(LKA)', '몽골(MNG)','카자흐스탄(KAZ)','러시아(RUS)',"중국(CHN)", "일본(JPN)", "한국(KOR)"]
             selected_input_lang = st.selectbox("📌 **입력 언어**(Input)를 선택하세요", input_langs)
@@ -279,15 +279,14 @@ if __name__ == "__main__":
 
                     time_delta = time.time() - start_time
 
-                    st.success(f" 📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
+                    revised_txt = st.text_area("🔦 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
+                    # st.success(f" 📢 작업 지시 : {text['transcription']['alternative'][0]['transcript']}")
                     st.markdown(f"[🕒 STT 소요시간: :red[{np.round(time_delta,1)}]초]")
 
-                    revised_txt = st.text_area("🔦 텍스트 :blue[**수정**]시 다시 번역 (수정후 글상자 외부 터치)", value = text['transcription']['alternative'][0]['transcript'])
                     
-                    with st.expander("🐳 :blue[**All Cases of STT Review**] - 음성 텍스트 변환"):
+                    with st.expander("🐳 :blue[**(AI 토막 상식) STT란 무엇인가요??**]"):
                         st.info(f"{text['transcription']['alternative']}")
                         st.markdown('''
-                                    **[AI 토막 상식] STT란 무엇인가요??**\n
                                     :red[**STT**]는 Speech to Text의 약자로서 사람이 말하는 음성 언어를 
                                     AI 알고리즘으로 해석해 그 내용을 문자 데이터로 전환하는 것을 의미하며,
                                     Confidence Level이 가장 높은 결과를 Best STT로 반환합니다.
@@ -348,8 +347,8 @@ if __name__ == "__main__":
         # st.markdown("---")
 
         st.error("⚽ ***Created by :red[Advanced AI Team]***")
-        my_image = img_requests("family")
-        st.image(my_image[0], caption="Lovely Family")
+        # my_image = img_requests("family")
+        # st.image(my_image[0], caption="Lovely Family")
 
         with st.expander("🐬 Google Play App 설치 QR"):
             image = Image.open('android_qrcode.png')
