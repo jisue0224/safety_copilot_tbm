@@ -240,7 +240,7 @@ if __name__ == "__main__":
 
         st.markdown("## :red[AI TRANS]  for :blue[SAFETY]🍀")
         st.markdown("# :green[외국인 근로자] :blue[통역 지원]")
-        st.markdown("##### :violet[(Translation Service for Foreign Workers)]")
+        st.markdown("###### :violet[(Translation Service for Foreign Workers)]")
         # st.write('\n')  # add vertical spacer
     
         st_lottie(url_json,

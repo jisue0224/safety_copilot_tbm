@@ -146,10 +146,7 @@ class StAudioRec extends StreamlitComponentBase<State> {
           "arr": new Uint8Array(buffer)
         })
       })
-
     }
-
-
   }
 }
 

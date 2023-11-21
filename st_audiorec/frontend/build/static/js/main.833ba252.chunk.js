@@ -87,11 +87,11 @@
                         canvasWidth: 650,  //450
                         canvasHeight: 80,
                       }),
-                      o.a.createElement('audio', {
-                        id: 'audio',
-                        controls: !0,
-                        src: t.state.audioDataURL
-                      })
+                      // o.a.createElement('audio', {
+                      //   id: 'audio',
+                      //   controls: !0,
+                      //   src: t.state.audioDataURL
+                      // })
                     )
                   )
                 }),
