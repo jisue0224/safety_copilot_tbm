@@ -59,19 +59,19 @@
                       o.a.createElement(
                         'button',
                         { id: 'record', onClick: t.onClick_start },
-                        'Start/  녹음'
+                        `Start\n(녹음)`
                       ),
 
                       o.a.createElement(
                         'button',
                         { id: 'stop', onClick: t.onClick_stop },
-                        'Stop/  번역'
+                        'Stop\n(번역)'
                       ),
 
                       o.a.createElement(
                         'button',
                         { id: 'reset', onClick: t.onClick_reset },
-                        'Reset/ 다시'
+                        'Reset\n(다시)'
                       ),
                       // o.a.createElement(
                       //   'button',
